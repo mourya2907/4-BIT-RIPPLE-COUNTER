@@ -22,19 +22,91 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
 
 ![image](https://github.com/naavaneetha/4-BIT-RIPPLE-COUNTER/assets/154305477/85e1958a-2fc1-49bb-9a9f-d58ccbf3663c)
 
-**Procedure**
+ ## **Procedure**
+1.Increment count on each positive edge of the clock.
 
-/* write all the steps invloved */
+2.Reset count to zero when it reaches 15.
 
-**PROGRAM**
+3.Generate clock signal (clk).
 
-/* Program for 4 Bit Ripple Counter and verify its truth table in quartus using Verilog programming.
+4.Instantiate the RippleCounter module.
 
- Developed by: RegisterNumber:
-*/
+5.Conduct functional testing by displaying the count at each clock cycle for 16 cycles.
+**program**
+~~~
+module exp12(
+   input wire clk,  // Clock input
+   output reg [3:0] count // 4-bit counter output
+);
+
+// Counter logic
+always @(posedge clk) begin
+   if (count == 4'b1111) // Reset when count reaches 15
+       count <= 4'b0000;
+   else
+       count <= count + 1; // Increment count
+end
+
+endmodule
+
+// Testbench
+module RippleCounter_tb;
+
+// Inputs
+reg clk;
+
+// Outputs
+wire [3:0] count;
+
+// Instantiate the counter
+RippleCounter uut(
+   .clk(clk),
+   .count(count)
+);
+
+// Clock generation
+initial begin
+   clk = 0;
+   forever #5 clk = ~clk; // Toggle clock every 5 time units
+end
+
+// Stimulus
+initial begin
+   // Wait for a few clock cycles
+   #10;
+   
+   // Display header
+   $display("Time | Count");
+   $display("-----------------");
+   
+   // Functional table testing
+   // Increment count 16 times and display the count
+   repeat (16) begin
+       #5; // Wait for one clock cycle
+       $display("%4d | %b", $time, count);
+   end
+   
+   // End simulation
+   $finish;
+end
+
+endmodule
+~~~
+
+
+
+
+##  Developed by : Sri Mathi S
+## RegisterNumber: 24004689
+
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
+![Screenshot 2024-12-26 143400](https://github.com/user-attachments/assets/895b30c3-6498-4308-bdec-eaca7b0c9009)
+
 
 **TIMING DIGRAMS FOR 4 Bit Ripple Counter**
+![image](https://github.com/user-attachments/assets/25c4eb65-96ca-435a-9e53-73d2f20dc879)
+
 
 **RESULTS**
+Thus the Programm executed Assembly 
